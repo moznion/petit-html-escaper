@@ -84,6 +84,7 @@ char *phe_escape_html(const char *p, size_t size) {
             }
         }
         memcpy(&buf[buf_index], p, 16);
+        buf_index += 16;
         p += 16;
         size -= 16;
     } while((int)size > 0);
