@@ -1,5 +1,5 @@
-#ifndef picohttpparser_h
-#define picohttpparser_h
+#ifndef petithttpparser_h
+#define petithttpparser_h
 
 #ifdef __cplusplus
 extern "C" {
