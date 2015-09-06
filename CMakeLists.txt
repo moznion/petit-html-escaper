@@ -3,7 +3,7 @@ CMAKE_POLICY(SET CMP0003 NEW)
 
 PROJECT(petithttpescaper C)
 
-SET(CMAKE_C_FLAGS "-O2 -msse2 -msse4.2 -Wall -fPIC -Wno-unused-function ${CMAKE_C_FLAGS}")
+SET(CMAKE_C_FLAGS "-O2 -msse2 -msse4.2 -Wall -fPIC ${CMAKE_C_FLAGS}")
 
 ADD_LIBRARY(petithttpescaper STATIC petithttpescaper.c)
 

@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-char *phe_escape_html(const char *p, size_t size);
+char phe_escape_html(const char *buf, size_t buf_size, const char *p, size_t size);
 
 #ifdef __cplusplus
 }
