@@ -1,5 +1,5 @@
-#ifndef petithttpparser_h
-#define petithttpparser_h
+#ifndef petithtmlparser_h
+#define petithtmlparser_h
 
 #ifdef __cplusplus
 extern "C" {

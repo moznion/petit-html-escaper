@@ -1,4 +1,4 @@
-petit-http-escaper
+petit-html-escaper
 ==
 
 A simple and small escaper for HTML with SSE4.2 function.

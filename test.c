@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "picotest.h"
-#include "petithttpescaper.h"
+#include "petithtmlescaper.h"
 
 void ok_escape (const char *src, const char *expected);
 
