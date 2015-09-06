@@ -1,6 +1,8 @@
 petit-html-escaper
 ==
 
+[![Build Status](https://travis-ci.org/moznion/petit-html-escaper.svg)](https://travis-ci.org/moznion/petit-html-escaper)
+
 A simple and small escaper for HTML with SSE4.2 function.
 
 Author
