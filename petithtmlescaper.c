@@ -79,5 +79,7 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
         input += 16;
         input_size -= 16;
     } while((int) input_size > 0);
+
+    memcpy(&dst[dst_index], "\0", 1);
 }
 

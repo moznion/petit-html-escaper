@@ -25,7 +25,7 @@ void ok_escape (const char *src, const char *expected) {
     res = (char *)malloc(size_of_res);
     phe_escape_html(res, size_of_res, src, strlen(src));
 
-    bool pass = strncmp(res, expected, strlen(expected)) == 0;
+    bool pass = strcmp(res, expected) == 0;
     ok(pass);
 
     free(res);
