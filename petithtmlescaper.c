@@ -16,13 +16,21 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
     int dst_index = 0;
     int cursor = 0;
 
+    int left = 0;
+
     __m128i v;
     do {
-        v = _mm_loadu_si128((const __m128i*) input);
+        v = _mm_loadu_si128((const __m128i*) &input[left]);
         cursor = _mm_cmpestri(ranges, RANGE_SIZE, v, 16, _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_RANGES | _SIDD_UBYTE_OPS);
         if (cursor != 16) {
-            memcpy(&dst[dst_index], input, cursor);
-            dst_index += cursor;
+            const int len = left + cursor;
+            if (input_size + len - 17 == 0) {
+                break;
+            }
+
+            memcpy(&dst[dst_index], input, len);
+            dst_index += len;
+            input += left;
             const char c = input[cursor];
             switch (c) {
                 case '&':
@@ -71,14 +79,19 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
             const int next = cursor + 1;
             input += next;
             input_size -= next;
+            left = 0;
             continue;
         }
 
-        memcpy(&dst[dst_index], input, 16);
-        dst_index += 16;
-        input += 16;
+        left += 16;
         input_size -= 16;
     } while((int) input_size > 0);
+
+    if (left > 0) {
+        const int len = left + cursor;
+        memcpy(&dst[dst_index], input, len);
+        dst_index += len;
+    }
 
     memcpy(&dst[dst_index], "\0", 1);
 }
