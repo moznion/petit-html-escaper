@@ -4,4 +4,6 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 libpetithtmlescaper.a
+libpetithtmlescaper.dylib
+libpetithtmlescaper.so
 *.t

@@ -5,7 +5,10 @@ PROJECT(petithtmlescaper C)
 
 SET(CMAKE_C_FLAGS "-O2 -msse2 -msse4.2 -Wall -fPIC ${CMAKE_C_FLAGS}")
 
-ADD_LIBRARY(petithtmlescaper STATIC petithtmlescaper.c)
+ADD_LIBRARY(petithtmlescaper-static STATIC petithtmlescaper.c)
+ADD_LIBRARY(petithtmlescaper SHARED petithtmlescaper.c)
+
+SET_TARGET_PROPERTIES(petithtmlescaper-static PROPERTIES OUTPUT_NAME "petithtmlescaper")
 
 INCLUDE_DIRECTORIES(deps/picotest)
 ADD_EXECUTABLE(test.t test.c deps/picotest/picotest.c)
