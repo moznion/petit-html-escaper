@@ -6,6 +6,7 @@
 #include <x86intrin.h>
 #endif
 #endif
+#include "petithtmlescaper.h"
 
 #define RANGES "\">``{}"
 #define RANGE_SIZE 6
