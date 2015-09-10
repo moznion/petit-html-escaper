@@ -21,7 +21,7 @@ petit-html-escaper: 4.417376 [sec]
 simple-impl: 7.088580 [sec]
 ```
 
-About 50% faster.
+About 60% faster.
 
 If you try to execute benchmarking on your environment, you can run the benchmarking by the following command:
 
