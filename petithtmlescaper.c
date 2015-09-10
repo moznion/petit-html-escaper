@@ -14,7 +14,6 @@
 void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size) {
     const __m128i ranges = _mm_loadu_si128((const __m128i*) RANGES);
 
-    int dst_index = 0;
     int cursor = 0;
 
     int left = 0;
@@ -29,52 +28,52 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
                 break;
             }
 
-            memcpy(&dst[dst_index], input, len);
-            dst_index += len;
+            memcpy(dst, input, len);
+            dst += len;
             input += left;
             const char c = input[cursor];
             switch (c) {
                 case '&':
-                    memcpy(&dst[dst_index], "&amp;", 5);
-                    dst_index += 5;
+                    memcpy(dst, "&amp;", 5);
+                    dst += 5;
                     break;
                 case '>':
-                    memcpy(&dst[dst_index], "&gt;", 4);
-                    dst_index += 4;
+                    memcpy(dst, "&gt;", 4);
+                    dst += 4;
                     break;
                 case '<':
-                    memcpy(&dst[dst_index], "&lt;", 4);
-                    dst_index += 4;
+                    memcpy(dst, "&lt;", 4);
+                    dst += 4;
                     break;
                 case '"':
-                    memcpy(&dst[dst_index], "&quot;", 6);
-                    dst_index += 6;
+                    memcpy(dst, "&quot;", 6);
+                    dst += 6;
                     break;
                 case '\'':
-                    memcpy(&dst[dst_index], "&#39;", 5);
-                    dst_index += 5;
+                    memcpy(dst, "&#39;", 5);
+                    dst += 5;
                     break;
                 case '`':
                     // For IE. IE interprets back-quote as valid quoting characters
                     // ref: https://rt.cpan.org/Public/Bug/Display.html?id=84971
-                    memcpy(&dst[dst_index], "&#96;", 5);
-                    dst_index += 5;
+                    memcpy(dst, "&#96;", 5);
+                    dst += 5;
                     break;
                 case '{':
                     // For javascript templates (e.g. AngularJS and such javascript frameworks)
                     // ref: https://github.com/angular/angular.js/issues/5601
-                    memcpy(&dst[dst_index], "&#123;", 6);
-                    dst_index += 6;
+                    memcpy(dst, "&#123;", 6);
+                    dst += 6;
                     break;
                 case '}':
                     // For javascript templates (e.g. AngularJS and such javascript frameworks)
                     // ref: https://github.com/angular/angular.js/issues/5601
-                    memcpy(&dst[dst_index], "&#125;", 6);
-                    dst_index += 6;
+                    memcpy(dst, "&#125;", 6);
+                    dst += 6;
                     break;
                 default:
-                    memcpy(&dst[dst_index], &c, 1);
-                    dst_index += 1;
+                    memcpy(dst, &c, 1);
+                    dst += 1;
             }
 
             const int next = cursor + 1;
@@ -90,10 +89,10 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
 
     if (left > 0) {
         const int len = left + cursor;
-        memcpy(&dst[dst_index], input, len);
-        dst_index += len;
+        memcpy(dst, input, len);
+        dst += len;
     }
 
-    memcpy(&dst[dst_index], "\0", 1);
+    *dst++ = *"\0";
 }
 
