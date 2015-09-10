@@ -5,6 +5,30 @@ petit-html-escaper
 
 A simple and small escaper for HTML with SSE4.2 function.
 
+AIMs
+--
+
+- Make HTML escaping faster!
+- Support escaping special characters which are used by JavaScript frameworks (e.g. AngularJs and etc)
+
+Benchmark
+--
+
+Result:
+
+```
+petit-html-escaper: 4.417376 [sec]
+simple-impl: 7.088580 [sec]
+```
+
+About 50% faster.
+
+If you try to execute benchmarking on your environment, you can run the benchmarking by the following command:
+
+```
+$ cmake . && make bench
+```
+
 Author
 --
 
