@@ -13,10 +13,16 @@ SET_TARGET_PROPERTIES(petithtmlescaper-static PROPERTIES OUTPUT_NAME "petithtmle
 INCLUDE_DIRECTORIES(deps/picotest)
 ADD_EXECUTABLE(test.t test.c deps/picotest/picotest.c)
 TARGET_LINK_LIBRARIES(test.t petithtmlescaper)
+ADD_EXECUTABLE(bench.run bench.c)
+TARGET_LINK_LIBRARIES(bench.run petithtmlescaper)
 
 ADD_CUSTOM_TARGET(test ./test.t
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     DEPENDS petithtmlescaper test.t)
+
+ADD_CUSTOM_TARGET(bench ./bench.run
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    DEPENDS petithtmlescaper bench.run)
 
 INSTALL(TARGETS petithtmlescaper DESTINATION lib)
 INSTALL(DIRECTORY . DESTINATION include FILES_MATCHING PATTERN "*.h")

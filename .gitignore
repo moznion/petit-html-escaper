@@ -7,3 +7,4 @@ libpetithtmlescaper.a
 libpetithtmlescaper.dylib
 libpetithtmlescaper.so
 *.t
+bench.run
