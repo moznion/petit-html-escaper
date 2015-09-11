@@ -23,23 +23,29 @@ int main(void) {
 
     res = (char *)malloc(size_of_res);
 
+    float phe_elapsed;
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
             phe_escape_html(res, size_of_res, INPUT, strlen(INPUT));
         }
         time_t end = clock();
-        printf("petit-html-escaper: %f [sec]\n", (float)(end - begin) / CLOCKS_PER_SEC);
+        phe_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
+        printf("petit-html-escaper: %f [sec]\n", phe_elapsed);
     }
 
+    float simple_elapsed;
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
             simple_escape_html(res, size_of_res, INPUT, sizeof(INPUT));
         }
         time_t end = clock();
-        printf("simple-impl: %f [sec]\n", (float)(end - begin) / CLOCKS_PER_SEC);
+        simple_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
+        printf("simple-impl: %f [sec]\n", simple_elapsed);
     }
+
+    printf("petit-html-escaper is faster \x1b[1m%f%%\x1b[0m than simple implementation\n", simple_elapsed / phe_elapsed * 100);
 
     free(res);
 
