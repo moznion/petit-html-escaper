@@ -34,42 +34,67 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
             const char c = input[cursor];
             switch (c) {
                 case '&':
-                    memcpy(dst, "&amp;", 5);
-                    dst += 5;
+                    *dst++ = '&';
+                    *dst++ = 'a';
+                    *dst++ = 'm';
+                    *dst++ = 'p';
+                    *dst++ = ';';
                     break;
                 case '>':
-                    memcpy(dst, "&gt;", 4);
-                    dst += 4;
+                    *dst++ = '&';
+                    *dst++ = 'g';
+                    *dst++ = 't';
+                    *dst++ = ';';
                     break;
                 case '<':
-                    memcpy(dst, "&lt;", 4);
-                    dst += 4;
+                    *dst++ = '&';
+                    *dst++ = 'l';
+                    *dst++ = 't';
+                    *dst++ = ';';
                     break;
                 case '"':
-                    memcpy(dst, "&quot;", 6);
-                    dst += 6;
+                    *dst++ = '&';
+                    *dst++ = 'q';
+                    *dst++ = 'u';
+                    *dst++ = 'o';
+                    *dst++ = 't';
+                    *dst++ = ';';
                     break;
                 case '\'':
-                    memcpy(dst, "&#39;", 5);
-                    dst += 5;
+                    *dst++ = '&';
+                    *dst++ = '#';
+                    *dst++ = '3';
+                    *dst++ = '9';
+                    *dst++ = ';';
                     break;
                 case '`':
                     // For IE. IE interprets back-quote as valid quoting characters
                     // ref: https://rt.cpan.org/Public/Bug/Display.html?id=84971
-                    memcpy(dst, "&#96;", 5);
-                    dst += 5;
+                    *dst++ = '&';
+                    *dst++ = '#';
+                    *dst++ = '9';
+                    *dst++ = '6';
+                    *dst++ = ';';
                     break;
                 case '{':
                     // For javascript templates (e.g. AngularJS and such javascript frameworks)
                     // ref: https://github.com/angular/angular.js/issues/5601
-                    memcpy(dst, "&#123;", 6);
-                    dst += 6;
+                    *dst++ = '&';
+                    *dst++ = '#';
+                    *dst++ = '1';
+                    *dst++ = '2';
+                    *dst++ = '3';
+                    *dst++ = ';';
                     break;
                 case '}':
                     // For javascript templates (e.g. AngularJS and such javascript frameworks)
                     // ref: https://github.com/angular/angular.js/issues/5601
-                    memcpy(dst, "&#125;", 6);
-                    dst += 6;
+                    *dst++ = '&';
+                    *dst++ = '#';
+                    *dst++ = '1';
+                    *dst++ = '2';
+                    *dst++ = '5';
+                    *dst++ = ';';
                     break;
                 default:
                     memcpy(dst, &c, 1);
