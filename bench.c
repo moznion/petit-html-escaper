@@ -18,16 +18,17 @@
 static void simple_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size);
 
 int main(void) {
+    const long input_size = strlen(INPUT);
+
     char *res;
     int size_of_res = sizeof(char) * strlen(INPUT) * 6 + 1;
-
     res = (char *)malloc(size_of_res);
 
     float phe_elapsed;
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
-            phe_escape_html(res, size_of_res, INPUT, sizeof(INPUT)-1);
+            phe_escape_html(res, size_of_res, INPUT, input_size);
         }
         time_t end = clock();
         phe_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
@@ -38,7 +39,7 @@ int main(void) {
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
-            simple_escape_html(res, size_of_res, INPUT, sizeof(INPUT)-1);
+            simple_escape_html(res, size_of_res, INPUT, input_size);
         }
         time_t end = clock();
         simple_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
