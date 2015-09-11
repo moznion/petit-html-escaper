@@ -27,7 +27,7 @@ int main(void) {
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
-            phe_escape_html(res, size_of_res, INPUT, strlen(INPUT));
+            phe_escape_html(res, size_of_res, INPUT, sizeof(INPUT)-1);
         }
         time_t end = clock();
         phe_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
@@ -38,7 +38,7 @@ int main(void) {
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
-            simple_escape_html(res, size_of_res, INPUT, sizeof(INPUT));
+            simple_escape_html(res, size_of_res, INPUT, sizeof(INPUT)-1);
         }
         time_t end = clock();
         simple_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
