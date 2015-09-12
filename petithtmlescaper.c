@@ -17,8 +17,8 @@ void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input
     _phe_escape_html(dst, dst_size, input, input_size);
 }
 
-#if __SSE4_2__
 static inline void _phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size) {
+#if __SSE4_2__
     const __m128i ranges = _mm_loadu_si128((const __m128i*) RANGES);
 
     int cursor = 0;
@@ -101,9 +101,7 @@ static inline void _phe_escape_html(char *dst, size_t dst_size, const char *inpu
     }
 
     *dst++ = *"\0";
-}
 #else
-static inline void _phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size) {
     int begin = 0;
     for (int i = 0; i < input_size; i++) {
         const char c = *(input++);
@@ -151,5 +149,5 @@ static inline void _phe_escape_html(char *dst, size_t dst_size, const char *inpu
                 begin += 1;
         }
     }
-}
 #endif
+}
