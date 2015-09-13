@@ -8,10 +8,9 @@
 #endif
 #include "petithtmlescaper.h"
 
+#if __SSE4_2__
 #define RANGES "\">``{}"
 #define RANGE_SIZE 6
-
-#if __SSE4_2__
 #define CMPESTRI_FLAG _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_RANGES | _SIDD_UBYTE_OPS
 #endif
 
@@ -85,10 +84,10 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
             continue;
         }
 
-        input_size -= 16;
         memcpy(dst, input, 16);
         dst += 16;
         input += 16;
+        input_size -= 16;
     } while((int) input_size > 0);
 
     *dst++ = *"\0";
