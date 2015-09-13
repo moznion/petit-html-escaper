@@ -26,22 +26,14 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
     const __m128i ranges = _mm_loadu_si128((const __m128i*) RANGES);
 
     int cursor = 0;
-    int left = 0;
 
     __m128i v;
     do {
-        v = _mm_loadu_si128((const __m128i*) &input[left]);
+        v = _mm_loadu_si128((const __m128i*) input);
         cursor = _mm_cmpestri(ranges, RANGE_SIZE, v, 16, CMPESTRI_FLAG);
         if (cursor != 16) {
-            const int len = left + cursor;
-            if (input_size + len == 17) {
-                // end of input
-                break;
-            }
-
-            memcpy(dst, input, len);
-            dst += len;
-            input += left;
+            memcpy(dst, input, cursor);
+            dst += cursor;
             const char c = input[cursor];
             switch (c) {
                 case '&':
@@ -90,19 +82,14 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
             const int next = cursor + 1;
             input += next;
             input_size -= next;
-            left = 0;
             continue;
         }
 
-        left += 16;
         input_size -= 16;
+        memcpy(dst, input, 16);
+        dst += 16;
+        input += 16;
     } while((int) input_size > 0);
-
-    if (left > 0) {
-        const int len = left + cursor;
-        memcpy(dst, input, len);
-        dst += len;
-    }
 
     *dst++ = *"\0";
 #else
