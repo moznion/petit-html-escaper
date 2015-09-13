@@ -102,52 +102,52 @@ static inline void _phe_escape_html(char *dst, size_t dst_size, const char *inpu
 
     *dst++ = *"\0";
 #else
-    int begin = 0;
     for (int i = 0; i < input_size; i++) {
         const char c = *(input++);
         switch (c) {
             case '&':
-                memcpy(&dst[begin], "&amp;", 5);
-                begin += 5;
+                memcpy(dst, "&amp;", 5);
+                dst += 5;
                 break;
             case '>':
-                memcpy(&dst[begin], "&gt;", 4);
-                begin += 4;
+                memcpy(dst, "&gt;", 4);
+                dst += 4;
                 break;
             case '<':
-                memcpy(&dst[begin], "&lt;", 4);
-                begin += 4;
+                memcpy(dst, "&lt;", 4);
+                dst += 4;
                 break;
             case '"':
-                memcpy(&dst[begin], "&quot;", 6);
-                begin += 6;
+                memcpy(dst, "&quot;", 6);
+                dst += 6;
                 break;
             case '\'':
-                memcpy(&dst[begin], "&#39;", 5);
-                begin += 5;
+                memcpy(dst, "&#39;", 5);
+                dst += 5;
                 break;
             case '`':
                 // For IE. IE interprets back-quote as valid quoting characters
                 // ref: https://rt.cpan.org/Public/Bug/Display.html?id=84971
-                memcpy(&dst[begin], "&#96;", 5);
-                begin += 5;
+                memcpy(dst, "&#96;", 5);
+                dst += 5;
                 break;
             case '{':
                 // For javascript templates (e.g. AngularJS and such javascript frameworks)
                 // ref: https://github.com/angular/angular.js/issues/5601
-                memcpy(&dst[begin], "&#123;", 6);
-                begin += 6;
+                memcpy(dst, "&#123;", 6);
+                dst += 6;
                 break;
             case '}':
                 // For javascript templates (e.g. AngularJS and such javascript frameworks)
                 // ref: https://github.com/angular/angular.js/issues/5601
-                memcpy(&dst[begin], "&#125;", 6);
-                begin += 6;
+                memcpy(dst, "&#125;", 6);
+                dst += 6;
                 break;
             default:
-                memcpy(&dst[begin], &c, 1);
-                begin += 1;
+                memcpy(dst, &c, 1);
+                dst += 1;
         }
     }
+    *dst++ = *"\0";
 #endif
 }
