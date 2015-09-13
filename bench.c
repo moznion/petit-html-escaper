@@ -15,7 +15,7 @@
 "</div>\n" \
 "</body>"
 
-static void simple_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size);
+static void simple_escape_html(char *dst, const char *input, size_t input_size);
 
 int main(void) {
     const long input_size = strlen(INPUT);
@@ -28,7 +28,7 @@ int main(void) {
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
-            phe_escape_html(res, size_of_res, INPUT, input_size);
+            phe_escape_html(res, INPUT, input_size);
         }
         time_t end = clock();
         phe_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
@@ -39,7 +39,7 @@ int main(void) {
     {
         time_t begin = clock();
         for (int i = 0; i < 10000000; i++) {
-            simple_escape_html(res, size_of_res, INPUT, input_size);
+            simple_escape_html(res, INPUT, input_size);
         }
         time_t end = clock();
         simple_elapsed = (float)(end - begin) / CLOCKS_PER_SEC;
@@ -53,7 +53,7 @@ int main(void) {
     return 0;
 }
 
-static void simple_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size) {
+static void simple_escape_html(char *dst, const char *input, size_t input_size) {
     for (int i = 0; i < input_size; i++) {
         const char c = *(input++);
         switch (c) {

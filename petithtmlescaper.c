@@ -11,13 +11,13 @@
 #define RANGES "\">``{}"
 #define RANGE_SIZE 6
 
-static inline void _phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size);
+static inline void _phe_escape_html(char *dst, const char *input, size_t input_size);
 
-void phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size) {
-    _phe_escape_html(dst, dst_size, input, input_size);
+void phe_escape_html(char *dst, const char *input, size_t input_size) {
+    _phe_escape_html(dst, input, input_size);
 }
 
-static inline void _phe_escape_html(char *dst, size_t dst_size, const char *input, size_t input_size) {
+static inline void _phe_escape_html(char *dst, const char *input, size_t input_size) {
 #if __SSE4_2__
     const __m128i ranges = _mm_loadu_si128((const __m128i*) RANGES);
 

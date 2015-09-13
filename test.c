@@ -21,9 +21,9 @@ int main (void) {
 void ok_escape (const char *src, const char *expected) {
     char *res;
     int size_of_res = sizeof(char) * strlen(src) * 6 + 1;
-
     res = (char *)malloc(size_of_res);
-    phe_escape_html(res, size_of_res, src, strlen(src));
+
+    phe_escape_html(res, src, strlen(src));
 
     bool pass = strcmp(res, expected) == 0;
     ok(pass);
