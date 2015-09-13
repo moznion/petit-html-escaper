@@ -11,6 +11,10 @@
 #define RANGES "\">``{}"
 #define RANGE_SIZE 6
 
+#if __SSE4_2__
+#define CMPESTRI_FLAG _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_RANGES | _SIDD_UBYTE_OPS
+#endif
+
 static inline void _phe_escape_html(char *dst, const char *input, size_t input_size);
 
 void phe_escape_html(char *dst, const char *input, size_t input_size) {
@@ -22,16 +26,16 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
     const __m128i ranges = _mm_loadu_si128((const __m128i*) RANGES);
 
     int cursor = 0;
-
     int left = 0;
 
     __m128i v;
     do {
         v = _mm_loadu_si128((const __m128i*) &input[left]);
-        cursor = _mm_cmpestri(ranges, RANGE_SIZE, v, 16, _SIDD_LEAST_SIGNIFICANT | _SIDD_CMP_RANGES | _SIDD_UBYTE_OPS);
+        cursor = _mm_cmpestri(ranges, RANGE_SIZE, v, 16, CMPESTRI_FLAG);
         if (cursor != 16) {
             const int len = left + cursor;
-            if (input_size + len - 17 == 0) {
+            if (input_size + len == 17) {
+                // end of input
                 break;
             }
 
