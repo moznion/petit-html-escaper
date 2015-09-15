@@ -17,10 +17,10 @@ Benchmark
 Result:
 
 ```
-petit-html-escaper: 4.345464 [sec]
-simple-impl: 5.317788 [sec]
+petit-html-escaper: 3.935205 [sec]
+simple-impl: 5.634651 [sec]
 
-petit-html-escaper is faster 122.375610% than simple implementation
+petit-html-escaper is faster 143.185715% than simple implementation
 ```
 
 If you try to execute benchmarking on your environment, you can run the benchmarking by the following command:
