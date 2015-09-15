@@ -13,6 +13,7 @@
 "    domain in examples without prior coordination or asking for permission.</p>\n" \
 "    <p><a href=\"http://www.iana.org/domains/example\">More information...</a></p>\n" \
 "</div>\n" \
+"aaa&bbb'ccc`ddd{eee}\n" \
 "</body>"
 
 static void simple_escape_html(char *dst, const char *input, size_t input_size);
