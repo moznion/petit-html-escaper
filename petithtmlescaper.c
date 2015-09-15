@@ -31,7 +31,11 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
         v = _mm_loadu_si128((const __m128i*) input);
         cursor = _mm_cmpestri(ranges, RANGE_SIZE, v, 16, CMPESTRI_FLAG);
         if (cursor != 16) {
-            memcpy(dst, input, cursor);
+            if ((int) input_size >= 16) {
+                memcpy(dst, input, 16);
+            } else {
+                memcpy(dst, input, cursor);
+            }
             dst += cursor;
             const char c = input[cursor];
             switch (c) {
