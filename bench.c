@@ -54,28 +54,53 @@ int main(void) {
     return 0;
 }
 
-// Author: @mattn
 static void simple_escape_html(char *dst, const char *input, size_t input_size) {
-    const char *ptr = input, *end = input + input_size;
-#define STRCPY(d,s) memcpy(d,s,sizeof(s)-1); d += sizeof(s)-1;
-    while (ptr < end) {
-        if (*ptr < 48) {
-            switch (*ptr) {
-                case '&': STRCPY(dst,"&amp;"); break;
-                case '>': STRCPY(dst,"&gt;"); break;
-                case '<': STRCPY(dst,"&lt;"); break;
-                case '"': STRCPY(dst,"&quot;"); break;
-                case '\'': STRCPY(dst,"&#39;"); break;
-                case '`': STRCPY(dst,"&#96;"); break;
-                case '{': STRCPY(dst,"&#123;"); break;
-                case '}': STRCPY(dst,"&#125;"); break;
-                default: *dst++ = *ptr; break;
-            }
-            ptr++;
-        } else
-            *dst++ = *ptr++;
+    for (int i = 0; i < input_size; i++) {
+        const char c = *(input++);
+        switch (c) {
+            case '&':
+                memcpy(dst, "&amp;", 5);
+                dst += 5;
+                break;
+            case '>':
+                memcpy(dst, "&gt;", 4);
+                dst += 4;
+                break;
+            case '<':
+                memcpy(dst, "&lt;", 4);
+                dst += 4;
+                break;
+            case '"':
+                memcpy(dst, "&quot;", 6);
+                dst += 6;
+                break;
+            case '\'':
+                memcpy(dst, "&#39;", 5);
+                dst += 5;
+                break;
+            case '`':
+                // For IE. IE interprets back-quote as valid quoting characters
+                // ref: https://rt.cpan.org/Public/Bug/Display.html?id=84971
+                memcpy(dst, "&#96;", 5);
+                dst += 5;
+                break;
+            case '{':
+                // For javascript templates (e.g. AngularJS and such javascript frameworks)
+                // ref: https://github.com/angular/angular.js/issues/5601
+                memcpy(dst, "&#123;", 6);
+                dst += 6;
+                break;
+            case '}':
+                // For javascript templates (e.g. AngularJS and such javascript frameworks)
+                // ref: https://github.com/angular/angular.js/issues/5601
+                memcpy(dst, "&#125;", 6);
+                dst += 6;
+                break;
+            default:
+                memcpy(dst, &c, 1);
+                dst += 1;
+        }
     }
-#undef STRCPY
-    *dst++ = 0;
+    *dst++ = *"\0";
 }
 
