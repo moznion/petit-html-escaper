@@ -57,25 +57,25 @@ int main(void) {
 // Author: @mattn
 static void simple_escape_html(char *dst, const char *input, size_t input_size) {
     const char *ptr = input, *end = input + input_size;
-#define STRCPY(d,s) memcpy(d,s,sizeof(s)-1); d += sizeof(s)-1;
+#define _ESC_AND_COPY(d,s) memcpy(d,s,sizeof(s)-1); d += sizeof(s)-1;
     while (ptr < end) {
         if (*ptr < 48) {
             switch (*ptr) {
-                case '&': STRCPY(dst,"&amp;"); break;
-                case '>': STRCPY(dst,"&gt;"); break;
-                case '<': STRCPY(dst,"&lt;"); break;
-                case '"': STRCPY(dst,"&quot;"); break;
-                case '\'': STRCPY(dst,"&#39;"); break;
-                case '`': STRCPY(dst,"&#96;"); break;
-                case '{': STRCPY(dst,"&#123;"); break;
-                case '}': STRCPY(dst,"&#125;"); break;
+                case '&': _ESC_AND_COPY(dst,"&amp;"); break;
+                case '>': _ESC_AND_COPY(dst,"&gt;"); break;
+                case '<': _ESC_AND_COPY(dst,"&lt;"); break;
+                case '"': _ESC_AND_COPY(dst,"&quot;"); break;
+                case '\'': _ESC_AND_COPY(dst,"&#39;"); break;
+                case '`': _ESC_AND_COPY(dst,"&#96;"); break;
+                case '{': _ESC_AND_COPY(dst,"&#123;"); break;
+                case '}': _ESC_AND_COPY(dst,"&#125;"); break;
                 default: *dst++ = *ptr; break;
             }
             ptr++;
         } else
             *dst++ = *ptr++;
     }
-#undef STRCPY
+#undef _ESC_AND_COPY
     *dst++ = 0;
 }
 
