@@ -96,52 +96,19 @@ static inline void _phe_escape_html(char *dst, const char *input, size_t input_s
 
     *dst++ = *"\0";
 #else
-    for (int i = 0; i < input_size; i++) {
-        const char c = *(input++);
-        switch (c) {
-            case '&':
-                memcpy(dst, "&amp;", 5);
-                dst += 5;
-                break;
-            case '>':
-                memcpy(dst, "&gt;", 4);
-                dst += 4;
-                break;
-            case '<':
-                memcpy(dst, "&lt;", 4);
-                dst += 4;
-                break;
-            case '"':
-                memcpy(dst, "&quot;", 6);
-                dst += 6;
-                break;
-            case '\'':
-                memcpy(dst, "&#39;", 5);
-                dst += 5;
-                break;
-            case '`':
-                // For IE. IE interprets back-quote as valid quoting characters
-                // ref: https://rt.cpan.org/Public/Bug/Display.html?id=84971
-                memcpy(dst, "&#96;", 5);
-                dst += 5;
-                break;
-            case '{':
-                // For javascript templates (e.g. AngularJS and such javascript frameworks)
-                // ref: https://github.com/angular/angular.js/issues/5601
-                memcpy(dst, "&#123;", 6);
-                dst += 6;
-                break;
-            case '}':
-                // For javascript templates (e.g. AngularJS and such javascript frameworks)
-                // ref: https://github.com/angular/angular.js/issues/5601
-                memcpy(dst, "&#125;", 6);
-                dst += 6;
-                break;
-            default:
-                memcpy(dst, &c, 1);
-                dst += 1;
-        }
+    const char *ptr = input, *end = input + input_size;
+    static int pp[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,8};
+    static char* dd[] = {NULL, "&amp;", "&gt;", "&lt;", "&quot;", "&#39;", "&#96;", "&#123;", "&#125;"};
+    static int dl[] = {0, 5, 4, 4, 6, 5, 5, 6, 6 };
+#define _ESC_AND_COPY(d,s,n) { memcpy(d,s,n); d += n; }
+    while (ptr < end) {
+        unsigned char c = *ptr;
+        int i = c < 126 ? pp[c] : 0;
+        if (i == 0) *dst++ = c;
+        else _ESC_AND_COPY(dst, dd[i], dl[i]);
+        ptr++;
     }
-    *dst++ = *"\0";
+#undef _ESC_AND_COPY
+    *dst++ = 0;
 #endif
 }
