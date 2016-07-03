@@ -5,7 +5,5 @@ compiler:
 script:
   - cmake CMakeLists.txt
   - make test
-  - DISABLE_SSE=1 cmake CMakeLists.txt
-  - make test
 sudo: false
 
