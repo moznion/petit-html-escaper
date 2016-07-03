@@ -29,6 +29,21 @@ If you try to execute benchmarking on your environment, you can run the benchmar
 $ cmake . && make bench
 ```
 
+For Developers
+--
+
+### Test
+
+```sh
+cmake . && make test
+```
+
+### Test without SSE
+
+```sh
+DISABLE_SSE=1 cmake . && make test
+```
+
 Author
 --
 
