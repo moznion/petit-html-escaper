@@ -1,4 +1,5 @@
 #include <string.h>
+#include <limits.h>
 #ifdef __SSE4_2__
 #ifdef _MSC_VER
 #include <nmmintrin.h>
