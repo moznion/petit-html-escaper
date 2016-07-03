@@ -4,7 +4,13 @@ SET(CMAKE_MACOSX_RPATH 1)
 
 PROJECT(petithtmlescaper C)
 
-SET(CMAKE_C_FLAGS "-O2 -march=native -msse4.2 -Wall -fPIC -funroll-loops ${CMAKE_C_FLAGS}")
+IF(DEFINED ENV{DISABLE_SSE})
+    SET(CMAKE_C_FLAGS "-mno-sse ${CMAKE_C_FLAGS}")
+ELSE()
+    SET(CMAKE_C_FLAGS "-msse4.2 ${CMAKE_C_FLAGS}")
+ENDIF()
+
+SET(CMAKE_C_FLAGS "-O2 -march=native -Wall -fPIC -funroll-loops ${CMAKE_C_FLAGS}")
 # SET(CMAKE_C_FLAGS "-O2 -msse4.2 -Wall -fPIC ${CMAKE_C_FLAGS}")
 
 ADD_LIBRARY(petithtmlescaper-static STATIC petithtmlescaper.c)
